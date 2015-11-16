@@ -1,4 +1,4 @@
-qNCDun <- function(p, nu, rho=(rep(0.5,times=3)), delta=(rep(0, times=3)), n = 32, two.sided = TRUE)
+qNCDun <- function(p, nu, rho, delta, n = 32, two.sided = TRUE)
 {
   x <- GaussLegendre(n)
   nn <- length(p)   

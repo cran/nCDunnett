@@ -193,12 +193,12 @@ qNDUD <- function(p, r, delta, n = 32, x)
    q0 <- qnorm(1 - alpha_k) # initial value
    maxIt <- 5000
    tol <- 1e-13
-   conv <- F
+   conv <- FALSE
    it <- 0
-   while ((conv == F) & (it <= maxIt))
+   while ((conv == FALSE) & (it <= maxIt))
    {
        q1 <- q0 - (pNDUD(q0, r, delta, n, x) - p) / dNDUD(q0, r, delta, n, x)
-       if (abs(q1-q0) <= tol) conv <- T
+       if (abs(q1-q0) <= tol) conv <- TRUE
        q0 <- q1
        it <- it + 1
    }
@@ -221,12 +221,12 @@ qNDBD <- function(p, r, delta, n = 32, x)
    if (q0 < 0) q0 <- -q0
    maxIt <- 5000
    tol <- 1e-13
-   conv <- F
+   conv <- FALSE
    it <- 0
-   while ((conv == F) & (it <= maxIt))
+   while ((conv == FALSE) & (it <= maxIt))
    {
        q1 <- q0 - (pNDBD(q0, r, delta, n, x) - p) / dNDBD(q0, r, delta, n, x)
-       if (abs(q1-q0) <= tol) conv <- T
+       if (abs(q1-q0) <= tol) conv <- TRUE
        q0 <- q1
        it <- it + 1
    }
@@ -382,14 +382,17 @@ qNDUDF <- function(p, r, nu, delta, n = 32, x)
   alpha <- 1 - p
   alpha_k <- 1 - (1-alpha)^(1/k)
   q0 <- qt(1 - alpha_k, nu) + mean(delta)# initial value 
+  p0 <- pNDUDF(q0, r, nu, delta, n, x)
+  if (abs(p0-p) > 0.1) q0  <- qNDUD(p, r, delta, n, x)
   maxIt <- 5000
   tol <- 1e-11
-  conv <- F
+  conv <- FALSE
   it <- 0
-  while ((conv == F) & (it <= maxIt))
+  while ((conv == FALSE) & (it <= maxIt))
   {
     q1 <- q0 - (pNDUDF(q0, r, nu, delta, n, x) - p) / dNDUDF(q0, r, nu, delta, n, x)
-    if (abs(q1-q0) <= tol) conv <- T
+    if (abs(q1-q0) <= tol) conv <- TRUE
+    if (q1 < 0) q1 <- -q1
     q0 <- q1
     it <- it + 1
   }
@@ -410,14 +413,18 @@ qNDBDF <- function(p, r, nu, delta, n = 32, x)
   alphak <- 1 - (1-alpha/2)^(1/k)
   q0 <- qt(1 - alphak, nu) + mean(delta) # valor 
   if (q0 < 0) q0 <- -q0
+  p0 <- pNDBDF(q0, r, nu, delta, n, x)
+  if (abs(p0-p) > 0.1) q0  <- qNDBD(p, r, delta, n, x)
   maxIt <- 5000
   tol <- 1e-11
-  conv <- F
+  conv <- FALSE
   it <- 0
-  while ((conv == F) & (it <= maxIt))
+  while ((conv == FALSE) & (it <= maxIt))
   {
-    q1 <- q0 - (pNDBDF(q0, r, nu, delta, n, x) - p) / dNDBDF(q0, r, nu, delta, n, x)
-    if (abs(q1-q0) <= tol) conv <- T
+    p0 <- pNDBDF(q0, r, nu, delta, n, x)
+    q1 <- q0 - (p0 - p) / dNDBDF(q0, r, nu, delta, n, x)
+    if (abs(q1-q0) <= abs(q0) * tol) conv <- TRUE
+    if (q1 < 0) q1 <- -q1
     q0 <- q1
     it <- it + 1
   }

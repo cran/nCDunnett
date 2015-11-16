@@ -1,7 +1,7 @@
 # funcao para simular 
-rNCDun <- function(N = 1, nu = Inf, rho=(rep(0.5,times=3)), delta=(rep(0, times=3)), two.sided=TRUE)
+rNCDun <- function(N = 1, nu = Inf, rho, delta, two.sided=TRUE)
 {
-  R <- rho^0.5%*%t(rho^0.5)-diag(rho)+diag(length(rho))
+  R <- rho^0.5%*%t(rho^0.5)+diag(1-rho)
   maxabs <- function(x) return(max(abs(x)))
   if (two.sided==TRUE)
   {   

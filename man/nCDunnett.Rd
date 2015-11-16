@@ -7,14 +7,14 @@
 \title{Noncentral Dunnett's test distribution}
 
 \description{
-Computes the probability density, the cumulative distribution function and the quantile function and generates random samples for the  noncentral Dunnett's test distribution with the numbers means equal to dimension of the vector \code{rho} that correspond to the correlation structure, the degrees of freedom equal to \code{nu} and the number of points of the Gauss-Legendre quadrature equal to \code{n}. The parameter of noncentrality is the vector \code{delta}, with the same dimension of \code{rho}. The two sided test is choose with the \code{two.sided} option, where the default is true. 
+Computes the probability density, the cumulative distribution  and the quantile functions and generates random samples for the  noncentral Dunnett's test distribution with the numbers means equal to dimension of the vector \code{rho} that correspond to the correlation structure, the degrees of freedom equal to \code{nu} and the number of points of the Gauss-Legendre quadrature equal to \code{n}. The parameter of noncentrality is the vector \code{delta}, with the same dimension of \code{rho}. The two-sided test should be choosen with the \code{two.sided} option, where the default is true. 
 }
 
 \usage{
-dNCDun(q, nu, rho=(rep(0.5,times=3)), delta=(rep(0, times=3)), n=32, two.sided = TRUE)
-pNCDun(q, nu, rho=(rep(0.5,times=3)), delta=(rep(0, times=3)), n=32, two.sided = TRUE)
-qNCDun(p, nu, rho=(rep(0.5,times=3)), delta=(rep(0, times=3)), n=32, two.sided = TRUE)
-rNCDun(N = 1, nu = Inf, rho=(rep(0.5,times=3)), delta=(rep(0, times=3)), two.sided=TRUE)
+dNCDun(q, nu, rho, delta, n=32, two.sided = TRUE)
+pNCDun(q, nu, rho, delta, n=32, two.sided = TRUE)
+qNCDun(p, nu, rho, delta, n=32, two.sided = TRUE)
+rNCDun(N = 1, nu = Inf, rho, delta, two.sided=TRUE)
 }
 
 \arguments{
@@ -79,7 +79,7 @@ Package homepage: \code{<www.dex.ufla.br/~danielff/r_resources.html>}
 
 \examples{
 library(nCDunnett)
-n <- 500
+n <- 50
 nu <- 9
 rho <- c(0.5,0.5,0.5)
 delta <- c(0,0,0)
@@ -91,17 +91,17 @@ prob <- length(x[x<=q])/n
 prob
 pNCDun(q, nu, rho, delta, 32, TRUE)
 dNCDun(q, nu, rho, delta, 32, TRUE)
-qNCDun(p, nu, rho, delta, 32, TRUE)
+qNCDun(p, nu, rho, delta, 16, TRUE)
 
-q     <- c(2.34, 4.50, 3.40, 1.77)
-p     <- c(0.85, 0.95, 0.34, 0.45)
-nu    <- c(Inf, 19, 15, 23)
+q     <- c(2.34, 4.50, 3.40)
+p     <- c(0.85, 0.95, 0.975)
+nu    <- c(Inf, 19, 15)
 # unbalanced example
-rho   <- c(0.23, 0.25, 0.27, 0.65, 0.34)
-delta <- c(0, 0, 0, 0, 0) # central case
+rho   <- c(0.23, 0.25, 0.27)
+delta <- c(0, 0, 0) # central case
 pNCDun(q, nu, rho, delta, 32, TRUE)
 dNCDun(q, nu, rho, delta, 32, TRUE)
-qNCDun(p, nu, rho, delta, 32, TRUE)
+qNCDun(p, nu, rho, delta, 16, TRUE)
 }
 
 \keyword{Dunnett}
